@@ -1,0 +1,22 @@
+0) Apple -> Системные настройки -> Клавиатура -> Сочетная клавиш -> Службы -> Файлы и папки -> Новый терминал по адресу папки
+1) Создать проект watchOS -> iOS App with Watch App [ Include Tests ] [ Create Git Repository on my Mac ]
+2) В настройках проекта поставить минимальную версию iOS 13
+3) Создать папку Fonts и добавить Row "Fonts provided by application" в Info.plist для проекта, WatchKit App и WatchKit Extension
+3.1) Добавить App Transport Security Settings -> Allow Arbitrary Loads -> YES
+4) [Не установлено] Установить CocoaPods в терминале в любой директории с помощью команды:
+sudo gem install cocoapods
+[какая-то ошибка]
+brew clean up -d -v
+brew install cocoapods
+5) Открыть папку проекта в терминале и выполнить команду:
+pod init
+6) Открыть появившийся Podfile и под строкой "Pods for *название проекта*" добавить следующие строки:
+pod 'Alamofire'
+pod 'Kingfisher'
+pod 'Firebase/Auth'
+pod 'Firebase/Firestore'
+7) В терминале (всё ещё открыт в папке проекта) выполнить команду:
+pod install
+8) Перезапустить Xcode, на этот раз открыв *название проекта*.xcworkspace
+9) Из новых файлов закоммитить и запушить ТОЛЬКО Podfile
+10) Проверить работоспособность каждой из библиотек

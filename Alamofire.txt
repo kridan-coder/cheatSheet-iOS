@@ -1,0 +1,59 @@
+Int16
+
+Создавать можно поле с типом другого класса:
+
+
+ПРИМЕР ФУНКЦИИ-ЗАПРОСА БЕЗ ИСПОЛЬЗОВАНИЯ ТОКЕНА:
+
+func makeRequest(bodyParameter: SignIn, success: @escaping (SignInSuccess) -> Void, error: @escaping (String) -> Void){
+	AF.request("example.com/", method: .post, parameters: bodyParameter, encoder: JSONParameterEncoder.default)
+		.response { response in 
+			switch response.result {
+				case .success(let data):
+					success(try! JSONDecoder().decode(SignInSuccess.self, from: data!))
+			
+				case .failure(let error):
+					failure(error.errorDescription ?? "Unhandled Error")
+				}
+		}
+
+}
+
+
+ПРИМЕР СТРУКТУРЫ, НАСЛЕДУЮЩЕЙ ENCODABLE:
+
+struct SignIn: Encodable {
+	var email: String
+	var password: String
+}
+
+
+ПРИМЕР СТРУКТУРЫ, НАСЛЕДУЮЩЕЙ DECODABLE:
+
+struct SignInSuccess: Decodable {
+	var api_token: String? = nil
+}
+
+
+
+Запрос на сервер без использования bearer токена (например, вход / регистрация):
+
+1) Создать структуру, наследющую Encodable (запрос)
+2) Создать структуру, наследующую Decodable (запрос-ответ)
+3) Создать отдельную функцию для обеспечения await'a запроса-ответа
+4) Отправить запрос, указав:
+URL,
+method,
+parameters,
+
+А) encoder JSONParameterEncoder.default - ОБЪЕКТ
+Б) encoding URLEncoding(destination: .queryString) - МАССИВ
+
+ДЕКОДИРОВАНИЕ:
+try! JSONDecoder().decode([dadaResponse].self, from: data!)
+
+ТЕКСТ ОШИБКИ:
+error.errorDescription ?? ""
+
+СОЗДАНИЕ HEADERS:
+let httpHeaders: HTTPHeaders = ["Authorization" : "Bearer \(user.token!)",  "Accept": "application/json"]

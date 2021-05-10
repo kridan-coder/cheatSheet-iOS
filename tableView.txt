@@ -1,0 +1,92 @@
+COLLECTIONVIEW ПОЧТИ НИЧЕМ НЕ ОТЛИЧАЕТСЯ
+
+Создание таблицы:
+1) Создать CocoaTouch file TableViewCell (вместе с xib'ом) и определить внешний вид и внутренности ячейки
+Закинуть в подкласс ячейки необходимые outlet'ы
+[есть необходимость определить отступы]
+override func layoutSubviews(){
+	super.layoutSubviews()
+	let margins = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 20)
+	contentView.frame = contentView.frame.inset(by: margins)
+}
+[есть необходимость программно доработать UI]
+Дописать необходимое в awakeFromNib()
+{
+	// (можно задать в борде) self.selectionStyle = .none
+}
+
+2) В интерфейсе UI задать Identifier для ячейки ("TableViewCellCustom")
+2.1) В интерфейсе UI задать Selection -> None
+3) Создать и закинуть tableView в качестве outlet'a в подкласс UIViewController 
+3.1) В интерфейсе UI Выбрать Separator -> None
+3.2) В интерфейсе UI убрать галочки на Show Horizontal Indicator и Show Vertical Indicator
+4) Создать строковую переменную tableViewCellCustomId ("TableViewCellCustom")
+5) Создать функцию с дополнительным установлением UI, регистрацией кастомных ячеек и установкой делегатов:
+
+initTableView(){
+	// tableView.isHidden = false
+	
+	// (можно задать в борде) tableView.separatorColor = .clear
+	// (можно задать в борде) tableView.showsVerticalScrollIndicator = false
+	// (можно задать в борде) tableView.showsHorizontalScrollIndicator = false
+
+
+	tableView.register(UINib.init(nibName: tableViewCellTaskId, bundle: nil), forCellReuseIdentifier: TableViewCellCustom)
+
+	tableView.delegate = self
+	tableView.dataSource = self
+
+}
+6) Подписать VC на протокол TableViewDelegate:
+
+extension CustomViewController: UITableViewDelegate { }
+
+7) Подписать VC на протокол TableViewDataSource
+
+extension CustomViewController: UITableViewDataSource {
+
+	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+	{	return cellsCollection.count	}
+
+	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+		// если ячеек несколько - сделать if
+
+		let cell = tableView.dequeueReusableCell(withIdentifier: tableViewCellCustomId, for: indexPath) as! TableViewCellCustom
+
+		// set cell UI (maybe even make a method in Cell subClass)
+		
+		return cell
+
+	}
+
+	// если ячеек несколько и для каждого типа ячейки нужна своя высота
+	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+
+
+		if tasksCollection[indexPath.item].type1 != nil {return 100}
+		// or even else if
+		else {return 200}
+
+	}
+
+	// если нужен swipeToDelete
+	override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCelll.EditingStyle, 	forRowAt indexPath: IndexPath) {
+		if editingStyle == .delete {
+			tasksCollection.remove(at: indexPath.row)
+			tableView.deleteRows(at: [indexPath], with: .fade)
+		}
+		else if editingStyle = .insert 
+		{
+			// Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
+		}
+	}
+
+}
+
+УДАЛИТЬ ЯЧЕЙКУ (В КАСТОМНОМ КЛАССЕ ЯЧЕЙКИ ХРАНИТСЯ ЕЁ ID!!):
+let index = cellsCollection.firstIndex(where: {$0.id == cell.id})
+cellsCollection.remove(at: index!)
+let indexPath = IndexPath(item: index!, section: 0)
+tableView.deleteRows(at: [IndexPath], with: .fade)
+
+

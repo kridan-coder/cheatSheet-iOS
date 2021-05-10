@@ -1,0 +1,95 @@
+АЛЁРТ
+==============
+let alert = UIAlertController(title: title, message: massage, preferredStyle: .alert)
+let action = UIAlertAction(title: "Ок", style: .default, handler: nil)
+alert.addAction(action)
+controller.present(alert, animated: true)
+==============
+ПОЛУЧЕНИЕ РАЗМЕРОВ ЭКРАНА (во VC):
+UIScreen.main.bounds.(height/width)
+==============
+ДОБАВЛЕНИЕ РАМКИ ДЛЯ ЛЮБОГО ЭЛЕМЕНТА:
+*название элемента*.layer.borderWidth = 1
+*название элемента*.layer.cornerRadius = 10
+*название элемента*.layer.borderColor = *цвет*
+==============
+ИЗМЕНЕНИЕ ЦВЕТА ЗАДНЕГО ФОНА:
+*название элемента*.backgroundColor = *цвет*
+==============
+АНИМАЦИЯ:
+
+// переход к определённой точке: *название элемента*.frame.origin = CGPoint(x: 100, y: 100)
+// получение точки x элемента (ОТВЕТ БУДЕТ ДАН В ТОЙ СИСТЕМЕ КООРДИНАТ, В КОТОРОЙ ОН НАХОДИТСЯ): *название элемента*.frame.origin.x
+
+UIView.animate(withDuration: 2.0){
+	
+}
+==============
+UITextField
+
+// универсально скрыть клавиатуру: view.endEditing(true)
+
+// задать собственную кнопку: .returnKeyType = *enum element*
+
+1) Засунуть во View
+2) Определить Content Type
+3) Определить Return Key
+4) Включить Auto-enable Return Key
+5) [Ввод пароля] Включить Secure Text Entry
+6) Установить Tag
+
+*В UIViewController*
+7) Создать ссылку на объект
+8) Подписать VC на UITextFieldDelegate
+9) *объект*.delegate = self
+10) Создать следующий метод:
+
+func textFieldShouldReturn(_ textField: UITextField){
+	let nextTag = textField.Tag + 1
+	if let nextResponder = textField.superview?.viewWithTag(nextTag){
+		nextResponder.becomeFirstResponder()
+	}
+	else{
+		textField.resignFirstResponder()
+	}
+	return true
+}
+
+Добавление линии снизу:
+
+extension UITextField {
+	func addUnderline(){
+		let bottomLine = CALayer()
+		bottomLine.frame = CGRect(x: 0.0, y: self.frame.height, width: self.frame.width, height: 0.3)
+		bottomLine.backgroundColor = UIColor.lightGray.cgColor
+		self.borderStyle = .none
+		self.layer.addSublayer(bottomLine)
+	}
+}
+==============
+UIButton
+
+touchDown - нажал
+touchUpInside - отпустил
+==============
+Кастомный элемент
+ПОМНИ:	СОЗДАВАТЬ КЛАСС, НАСЛЕДУЮЩИЙ ИСКЛЮЧИТЕЛЬНО UIView (во VC БУДЕТ возможность обращаться к элементам интерфейса (ОБРАЩАТЬСЯ НУЖНО ИМЕННО К НИМ))
+
+СОЗДАНИЕ ПРОТОКОЛА НЕОБЯЗАТЕЛЬНО
+
+==============
+Custom User Interface Element
+
+1) Создать swift файл и класс в нём
+2) Создать xib файл и поставить custom class и inherit module from target у file's owner'а
+3) Перетащить outlet'ы
+4) Создать custom func:
+{
+	Bundle.main.loadNibNamed("file name WITHOUT .xib", owner: self, options: nil)
+	self.contentView.frame = self.bounds
+	self.addSubview(contentView)
+}
+5) Переопределить init (frame: CGRect), добавив custom func
+6) Создать протокол и имплементировать его VC'ом (во VC можно перетянуть outlet с custom class)
+// Изменять свойства можно в самом VC при помощи полученного outlet'а
+==============

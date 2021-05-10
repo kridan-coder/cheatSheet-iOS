@@ -1,0 +1,58 @@
+
+В СЛУЧАЕ НЕОБХОДИМОСТИ ПЕРЕХОДА НА ЭКРАН С ЗАГРУЖАЕМЫМИ ДАННЫМИ СОЗДАТЬ СОБСТВЕННЫЙ (COCOA TOUCH WITH XIB) VC:
+let vc = CustomViewController(nibName: "CustomViewController", bundle: nil)
+
+// vc.title = "Anime"
+// vc.navigationItem.setHidesBackButton(true, animated: true)
+self.navigationController?.pushViewController(vc, animated: true)
+
+
+ИЛИ (предварительно у VC в интерфейсе UI установить Storyboard ID):
+
+let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+// ИЛИ: let mainStoryboard = self.storyboard
+
+guard let vc = mainStoryboard.instantiateViewController(withIdentifier: "CustomViewController") as? CustomViewController else {return}
+
+navigationController?.pushViewController(vc, animated: true)
+
+
+ПЕРЕХОД НАЗАД
+self.navigationController?.popViewController(animated: true)
+
+Ап Контроллера: Editor -> Embed in -> ...
+
+UINavigationController.
+
+ПЕРЕХОД В КОДЕ:
+
+
+УБРАТЬ BACK BUTTON (написать во ViewDidLoad() VC):
+self.navigationItem.hidesBackButton = true
+
+УБИРАТЬ БАРЫ СВЕРХУ И СНИЗУ МОЖНО С ПОМОЩЬЮ ИНТЕРФЕЙСА UI
+
+УСТАНОВИТЬ БОЛЬШОЕ ЗАГЛАВИЕ:
+controller.navigationBar.prefersLargeTitles = true
+
+УСТАНОВИТЬ ЦВЕТ СТЫКА navigationBar'a И КОНТЕНТА ПОД НИМ:
+var appearance = UINavigationBarAppearance()
+appearance.shadowColor = .lightGray
+controller.navigationBar.scrollEdgeAppearance = appearance
+
+UITabBarController.
+
+КАСТОМНЫЙ ЦВЕТ НЕВЫБРАННЫХ ЭЛЕМЕНТОВ (в Application в func application):
+UITabBar.appearance().unselectedItemTintColor = *название цвета*
+
+КАСТОМНАЯ ВЫСОТА TabBar: (во VC override func viewDidLayoutSubviews):
+customTabBar.frame.size.height = 228
+customTabBar.frame.origin.y = view.frame.height - 228
+
+UIPageViewController. (???)
+
+УБРАТЬ СТЫК TAB BAR'A:
+В AppDelegate:
+UITabBar.appearance().shadowImage = UIImage()
+UITabBar.appearance().backgroundImage = UIImage()
+

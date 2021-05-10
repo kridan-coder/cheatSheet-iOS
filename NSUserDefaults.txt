@@ -1,0 +1,22 @@
+struct defaultKeys{
+	static let keyOne = "firstStringKey"
+	static let keyTwo = "secondStringKey"
+}
+
+// set
+
+let defaults = UserDefaults.standart
+defaults.set("dadadadadadad", forKey: defaultKeys.keyOne)
+defaults.set("netnetnetnet", forKey: defaultKeys.keyTwo)
+
+
+// get
+let defaults = UserDefaults.standart
+
+if let stringOne = defaults.string(forKey: defaultKeys.keyOne){
+	print(stringOne)
+}
+
+if let stringTwo = defaults.string(forKey: defaultKeys.keyTwo){
+	print(stringTwo)
+}

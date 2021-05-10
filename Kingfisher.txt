@@ -1,0 +1,7 @@
+@IBOutlet weak var imageViewHeader: UIImageView!
+
+func viewDidLoad(){
+	super.viewDidLoad()
+	imageViewHeader.kf.indicatorType = .activity
+	imageViewHeader.kf.setImage(URL(string: "https://dada/sd.jpg")? placeholder: nil, options: [.transform(.fade(0.7))]? progressBlock: nil)
+}
