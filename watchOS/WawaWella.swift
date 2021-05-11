@@ -8,15 +8,16 @@
 import WatchKit
 
 class WawaWella: WKInterfaceController {
-    @IBOutlet weak var etoNazvaniePosviachaetsiaSOBAKEKOTORAYAGAVKAETNEPERESTAVAYASUKAAAAAAAAA: WKInterfaceLabel!
+
+    @IBOutlet weak var image: WKInterfaceImage!
     
     
     override func awake(withContext context: Any?) {
         super.awake(withContext: context)
         
-        let detailData = context as! CellData
-        etoNazvaniePosviachaetsiaSOBAKEKOTORAYAGAVKAETNEPERESTAVAYASUKAAAAAAAAA.setText(detailData.labelText)
-        
+        let detailData = context as! SignInResponse
+        image.kf.setImage(with: URL(string: detailData.avatar!))
+        print(detailData)
         // Configure interface objects here.
     }
 }

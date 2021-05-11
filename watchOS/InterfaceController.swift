@@ -27,16 +27,28 @@ class InterfaceController: WKInterfaceController {
         }
     }
     
+    
+    override func table(_ table: WKInterfaceTable, didSelectRowAt rowIndex: Int) {
+        ApiClient().signIn(parameters: SignInRequest(email: "junior@wsr.ru", password: "junior"), success: {response in
+            
+            self.goNext(response: response)
+            
+        })
+    }
+    
+    func goNext(response: SignInResponse){
+        pushController(withName: "ahaha", context:response)
+    }
+    
     @IBOutlet weak var tableView: WKInterfaceTable!
     override func awake(withContext context: Any?) {
         super.awake(withContext: context)
+
         loadTableData()
         // Configure interface objects here.
     }
     
-    override func table(_ table: WKInterfaceTable, didSelectRowAt rowIndex: Int) {
-        pushController(withName: "ahaha", context: tableData[rowIndex])
-    }
+
     override func willActivate() {
         // This method is called when watch view controller is about to be visible to user
     }
