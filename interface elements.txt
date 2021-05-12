@@ -27,6 +27,8 @@ UIView.animate(withDuration: 2.0){
 ==============
 UITextField
 
+// изменить цвет плейсхолдера: emailField.attributedPlaceholder = NSAttributedString(string:"  Email", attributes: [NSAttributedString.Key.foregroundColor : *цвет* ])
+
 // универсально скрыть клавиатуру: view.endEditing(true)
 
 // задать собственную кнопку: .returnKeyType = *enum element*
