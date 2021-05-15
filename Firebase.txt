@@ -1,0 +1,74 @@
+==============
+INSTALLING
+==============
+1. Создать проект Firebase на самом сайте, включив Google Analytics
+2. Добавить приложение в проект Firebase:
+А) В проекте у Target'a взять Bundle Identifier
+Б) Скачать и вставить файл Google-Service-Info.plist в корневую папку проекта iOS
+В) Добавить Firebase CocoaPod:
+pod 'Firebase/Auth'
+pod 'Firebase/Firestore'
+Г) Добавить дополнительные pod's if needed
+Д) pod install
+Е)
+Добавить следующий код в AppDelegate:
+
+import UIKit
+import Firebase
+
+@main
+class AppDelegate: UIResponder, UIApplicationDelegate {
+
+  var window: UIWindow?
+
+  func application(_ application: UIApplication,
+    didFinishLaunchingWithOptions launchOptions:
+      [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    FirebaseApp.configure()
+    return true
+  }
+}
+Ж) Включить Authentication via Email
+З) Create Database in Firestore (test mode) (ALLOW PERMISSIONS TO WRITE AND READ)
+
+
+import Firebase
+==============
+Authentication
+==============
+
+Auth().auth().createUser(withEmail: ..., password: ...) {result, error in
+	print("Success")
+}
+
+==============
+Add data to Firestore
+==============
+
+// collection madness
+let messageRef = db
+    .collection("rooms").document("roomA")
+    .collection("messages").document("message1")
+// collection madness
+
+let db = Firestore.firestore()
+
+// There IS a meaningful ID
+db.collection("users").document(result!.user.uid).setData(["ahah":"ahahah"], merge: true){ error in 
+	guard let error = error else {return}
+	print(error)
+}
+
+// There IS NO meaningful ID
+db.collection("computers").addDocument(data: [String: Any]]) {error in...}
+
+// Update document
+db.collection("users").document("aja").updateData(["lastUpdated" : FieldValue.serverTimestamp()]) {error in...}
+
+// Update nested objects is available via "dot notation"
+==============
+User exists
+==============
+if Auth.auth().currentUser != nil {
+
+}
