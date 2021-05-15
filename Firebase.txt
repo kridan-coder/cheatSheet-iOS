@@ -72,3 +72,33 @@ User exists
 if Auth.auth().currentUser != nil {
 
 }
+
+
+
+
+
+       let db = Firestore.firestore()
+        
+        db.collection("users").document("daniil").collection("friends").document("ahmed").collection("messages").addDocument(data: ["text": "pRIVET!!!!!!!!!!dfskm fnsdfjkns dkjfnsdjfn jskd nfljsnd fjsd nfls ndfj s", "isIncoming" : false])
+        
+        db.collection("users").document("ahmed").collection("friends").document("daniil").collection("messages").document(String(Date().timeIntervalSince1970)).setData(["text": "TTTIMEEE321 312313123123, ", "isIncoming" : false])
+        
+        db.collection("users").document("ahmed").collection("friends").document("daniil").collection("messages").addSnapshotListener{querySnapshot, error in
+            guard let documents = querySnapshot?.documents else {
+                print(error)
+                return
+            }
+            self.dataSet = []
+            for doc in documents {
+                let safeData = doc.data() as! [String: Any]
+
+
+                self.dataSet.append(Data(isIncoming: safeData["isIncoming"] as! Bool, text: safeData["text"] as! String ))
+
+            }
+
+
+            self.tableView.reloadData()
+        }
+        
+        initTableView()
