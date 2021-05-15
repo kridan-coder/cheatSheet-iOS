@@ -89,4 +89,4 @@ cellsCollection.remove(at: index!)
 let indexPath = IndexPath(item: index!, section: 0)
 tableView.deleteRows(at: [IndexPath], with: .fade)
 
-
+self.tableView.reloadData()
