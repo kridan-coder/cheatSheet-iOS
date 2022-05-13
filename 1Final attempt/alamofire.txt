@@ -1,0 +1,15 @@
+1. Проверка наличия соединения:
+  NetworkReachabilityManager()?.isReachable ?? false
+
+2. Post-запрос:
+  let nickname = "Lamp"
+  AF.request(url, method: .post, parameters: nickname, encoder: JSONParameterEncoder.default).response {...}
+
+
+3. Get-запрос с Bearer Token:
+  func getSomething() {
+    let headers: HTTPHeaders = [
+	"Authorization" : "Bearer \(token)"
+    ]
+    AF.request(url, method: .get, headers: headers).response {...}
+  }

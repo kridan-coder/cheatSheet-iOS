@@ -1,0 +1,13 @@
+0. import AVFoundation
+
+1. var player: AVAudioPlayer!
+
+2. func playSound() {
+	let url = Bundle.main.url(forResource: "sound", withExtension: "mp3")
+	do {
+	  player = try AVAudioPlayer(contentsOf: url!)
+	  player?.play()
+	} catch {
+	  print("error")
+	}
+}

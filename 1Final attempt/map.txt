@@ -1,0 +1,38 @@
+0. import MapKit
+
+1. Permission in Info.plist:
+	1) Privacy - Location When In Use Usage Description
+	2) NSLocationWhenInUseUsageDescription
+
+2. Request authorization:
+	private let locationManager = CLLocationManager()
+	@Published var region: MKCoordinateRegion(...)
+	override init() {
+	  ...
+	  super.init()
+	  locationManager.delegate = self
+	}
+	...
+	func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+	  checkForPermissions()
+	}
+	func checkForPermissions() {
+	  switch locationManager.authorizationStatus {
+	    case .notDetermined:
+	      locationManager.requestWhenInUseAuthorization()
+	    case .restricted, .denied:
+	      UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+	    case .authorizedAlways, .authorizedWhenInUse:
+	      guard let location = locationManager.location else { return }
+	      self.region = MKCoordinateRegion(...)
+	 }
+	}
+
+3. Custom Annotation Items:
+struct AnnotationCringe: Identifiable { ... }
+...
+Map(coordinateRegion: .., showsUserLocation: .., annotationItems: [AnnotationCringe()], annotationContent: { location in
+  MapAnnotation(coordinate: location.coordinate) {
+    // The View.
+ }
+})

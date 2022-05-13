@@ -1,0 +1,7 @@
+0. import AVKit
+
+1. [From Internet]
+	VideoPlayer(player: AVPLayer(url: ...))
+
+2. [From bundle]
+	VideoPlayer(player: AVPlayer(url: Bundle.main.url(forResource: "video", withExtension: "mp4")!))

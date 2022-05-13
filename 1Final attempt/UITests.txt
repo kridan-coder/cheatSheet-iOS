@@ -1,0 +1,16 @@
+let app = XCUIApplication()
+app.launch()
+let field = app.textFields["Hello123"]
+field.tap()
+let keyA = app.keys["A"]
+keyA.tap()
+field.typeText("Hihihiha")
+sleep(10)
+XCTAssertTrue(app.buttons["Hello"].exists)
+XCTAssertTrue(app.textFields["Hello123"].exists)
+
+let navnTextField = app.textFields["First Name"]
+let name = "Henrik"
+navnTextField.tap()
+navnTextField.typeText("Henrik")
+XCTAssertEqual(navnTextField.value as? String, name)

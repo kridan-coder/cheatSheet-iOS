@@ -1,0 +1,7 @@
+1. GET
+	let data = UserDefaults.standart.data(forKey: key)!
+	return try! JSONDecoder().decode(UserInfo.self, from: data)
+
+2. SET
+	let data = try! JSONEncoder().encode(value)
+	UserDefaults.standard.set(data, forKey: key)
