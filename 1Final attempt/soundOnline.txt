@@ -1,0 +1,9 @@
+0. import AVFoundation
+
+1. 
+var player: AVPLayer!
+
+2.
+let item = AVPlayerItem(url: ...)
+player = try? AVPlayer(playerItem: item)
+player?.play()
